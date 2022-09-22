@@ -8,7 +8,8 @@ record Point(
     }
 
     Point reflect() {
-        return new Point(-x, -y);
+        // TODO implement reflecting this point against the point (0, 0)
+        return null;
     }
 
     @Override

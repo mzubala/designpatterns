@@ -11,8 +11,7 @@ class MarsRoverAppTest {
 
     private final MarsRoverApp sut = new MarsRoverApp(
         input.toInputStream(),
-        outputAssertions.toOutputStream(),
-        new CommandGateway()
+        outputAssertions.toOutputStream()
     );
 
     @BeforeEach

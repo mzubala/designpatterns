@@ -8,11 +8,11 @@ enum Direction {
     WEST(new Point(-1, 0));
 
     Point vector;
-    Point reverseVector;
+    // TODO add the reverseVector
 
     Direction(Point vector) {
         this.vector = vector;
-        reverseVector = vector.reflect();
+        // TODO initialize the reverseVector
     }
 
     Direction next() {

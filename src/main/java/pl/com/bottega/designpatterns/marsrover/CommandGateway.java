@@ -8,21 +8,15 @@ class CommandGateway {
     private final Map<String, Command> commandMap = new HashMap<>();
 
     CommandGateway() {
-        this(new RotateRightCommand(), new RotateLeftCommand(), new MoveCommand(), new MoveBackCommand());
+        // TODO call the other constructor passing all the available commands
     }
 
     CommandGateway(Command... commands) {
-        for (Command cmd : commands) {
-            commandMap.put(cmd.getCode(), cmd);
-        }
+        // TODO put all the commands int commandsMap for easy access
     }
 
     void execute(String commandCode, MarsRover marsRover) {
-        Command command = commandMap.get(commandCode);
-        if (command == null) {
-            throw new IllegalArgumentException("No such command");
-        }
-        command.execute(marsRover);
+        // TODO fetch a command from the map, if found execute, throw IllegalArgumentException otherwise
     }
 
 }

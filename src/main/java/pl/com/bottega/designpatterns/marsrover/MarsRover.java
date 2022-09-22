@@ -21,7 +21,7 @@ class MarsRover {
     }
 
     void moveBack() {
-        position = position.moveBy(direction.reverseVector);
+        // TODO change position by moving by the reverseVector
     }
 
     Point getPosition() {
