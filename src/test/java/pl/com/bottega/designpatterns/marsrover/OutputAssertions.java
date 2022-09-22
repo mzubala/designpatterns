@@ -1,5 +1,6 @@
-package pl.com.bottega.desigpatterns.marsrover;
+package pl.com.bottega.designpatterns.marsrover;
 
+import lombok.SneakyThrows;
 import org.assertj.core.api.AbstractStringAssert;
 
 import java.io.OutputStream;
@@ -15,20 +16,27 @@ public class OutputAssertions {
 
     private final Scanner scanner;
 
+    @SneakyThrows
     OutputAssertions() {
-        try {
-            var pipedInputStream = new PipedInputStream(pipedOutputStream);
-            scanner = new Scanner(pipedInputStream);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        var pipedInputStream = new PipedInputStream(pipedOutputStream);
+        scanner = new Scanner(pipedInputStream);
     }
 
     AbstractStringAssert<?> assertThatNextLine() {
         return assertThat(scanner.nextLine());
     }
 
+    void skipLine() {
+        scanner.nextLine();
+    }
+
     OutputStream toOutputStream() {
         return pipedOutputStream;
+    }
+
+    @SneakyThrows
+    void close() {
+        pipedOutputStream.close();
+        scanner.close();
     }
 }

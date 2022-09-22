@@ -2,6 +2,8 @@ package pl.com.bottega.designpatterns.marsrover;
 
 import java.util.Scanner;
 
+// TODO refactor this class so that it's possible to inject input and output streams from the outside
+//  - that will make it testable
 public class MarsRoverApp {
 
     private int positionX, positionY;
@@ -14,7 +16,7 @@ public class MarsRoverApp {
         new MarsRoverApp().run();
     }
 
-    private void run() {
+    void run() {
         printPosition();
         while (true) {
             String command = readCommand();
