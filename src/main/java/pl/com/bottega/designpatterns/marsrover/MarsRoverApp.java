@@ -12,35 +12,30 @@ public class MarsRoverApp {
     private final Scanner scanner;
 
     private final PrintWriter out;
+    private CommandGateway commandGateway;
 
-    MarsRoverApp(InputStream in, OutputStream out) {
+    MarsRoverApp(InputStream in, OutputStream out, CommandGateway commandGateway) {
         scanner = new Scanner(in);
         this.out = new PrintWriter(out, true);
+        this.commandGateway = commandGateway;
     }
 
     public static void main(String[] args) {
-        new MarsRoverApp(System.in, System.out).run();
+        new MarsRoverApp(
+            System.in, System.out,
+            new CommandGateway()
+        ).run();
     }
 
     void run() {
         printPosition();
         while (true) {
             String command = readCommand();
-            switch (command) {
-                case "m":
-                    move();
-                    printPosition();
-                    break;
-                case "rl":
-                    rotateLeft();
-                    printPosition();
-                    break;
-                case "rr":
-                    rotateRight();
-                    printPosition();
-                    break;
-                default:
-                    out.println("Sorry, I don't understand");
+            try {
+                commandGateway.execute(command, marsRover);
+                printPosition();
+            } catch (IllegalArgumentException ex) {
+                out.println("Sorry, I don't understand");
             }
         }
     }

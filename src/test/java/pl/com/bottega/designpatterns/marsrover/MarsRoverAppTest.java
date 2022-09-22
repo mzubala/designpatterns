@@ -9,7 +9,11 @@ class MarsRoverAppTest {
     private final FakeInput input = new FakeInput();
     private final OutputAssertions outputAssertions = new OutputAssertions();
 
-    private final MarsRoverApp sut = new MarsRoverApp(input.toInputStream(), outputAssertions.toOutputStream());
+    private final MarsRoverApp sut = new MarsRoverApp(
+        input.toInputStream(),
+        outputAssertions.toOutputStream(),
+        new CommandGateway()
+    );
 
     @BeforeEach
     void setup() {
@@ -53,6 +57,21 @@ class MarsRoverAppTest {
         assertPosition(0, 1, "NORTH");
         assertPosition(0, 2, "NORTH");
     }
+
+    @Test
+    void movesRoverBack() {
+        // given
+        outputAssertions.skipLine();
+
+        // when
+        input.input("b");
+        input.input("b");
+
+        // then
+        assertPosition(0, -1, "NORTH");
+        assertPosition(0, -2, "NORTH");
+    }
+
 
     @Test
     void rotatesRover() {

@@ -20,6 +20,10 @@ class MarsRover {
         direction = direction.next();
     }
 
+    void moveBack() {
+        position = position.moveBy(direction.reverseVector);
+    }
+
     Point getPosition() {
         return position;
     }

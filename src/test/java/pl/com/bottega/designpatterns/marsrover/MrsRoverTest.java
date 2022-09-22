@@ -119,6 +119,63 @@ class MrsRoverTest {
         assertState(new Point(0, 0), Direction.NORTH);
     }
 
+    @Test
+    void movesBackNorth() {
+        // when
+        sut.move();
+
+        // then
+        assertState(new Point(0, 1), Direction.NORTH);
+
+        // when
+        sut.moveBack();
+        sut.moveBack();
+        sut.moveBack();
+
+        // then
+        assertState(new Point(0, -2), Direction.NORTH);
+    }
+
+    @Test
+    void movesBackSouth() {
+        // given
+        sut.rotateLeft();
+        sut.rotateLeft();
+
+        // when
+        sut.moveBack();
+        sut.moveBack();
+
+        // then
+        assertState(new Point(0, 2), Direction.SOUTH);
+    }
+
+    @Test
+    void movesBackWest() {
+        // given
+        sut.rotateLeft();
+
+        // when
+        sut.moveBack();
+        sut.moveBack();
+
+        // then
+        assertState(new Point(2, 0), Direction.WEST);
+    }
+
+    @Test
+    void movesBackEast() {
+        // given
+        sut.rotateRight();
+
+        // when
+        sut.moveBack();
+        sut.moveBack();
+
+        // then
+        assertState(new Point(-2, 0), Direction.EAST);
+    }
+
     private void assertState(Point expectedPosition, Direction expectedDirection) {
         assertPosition(expectedPosition);
         assertDirection(expectedDirection);

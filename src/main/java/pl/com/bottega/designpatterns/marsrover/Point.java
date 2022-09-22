@@ -7,6 +7,10 @@ record Point(
         return new Point(x + vector.x, y + vector.y);
     }
 
+    Point reflect() {
+        return new Point(-x, -y);
+    }
+
     @Override
     public String toString() {
         return String.format("(%d, %d)", x, y);
