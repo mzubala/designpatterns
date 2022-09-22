@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+// TODO remove rover logic from this class, it should only be responsible for collecting user commands and printing current rover state
 public class MarsRoverApp {
 
     private int positionX, positionY;
@@ -81,9 +82,5 @@ public class MarsRoverApp {
     private String readCommand() {
         return scanner.nextLine().trim();
     }
-}
-
-enum Direction {
-    NORTH, EAST, SOUTH, WEST
 }
 
