@@ -2,26 +2,22 @@ package pl.com.bottega.designpatterns.marsrover;
 
 import static pl.com.bottega.designpatterns.marsrover.Direction.NORTH;
 
-// TODO implement methods
 class MarsRover {
 
-    private Point position;
+    private Point position = new Point(0, 0);
 
     private Direction direction = NORTH;
 
-    // TODO Try not to use switch statement
     void move() {
-
+        position = position.moveBy(direction.vector);
     }
 
-    // TODO Try not to use switch statement
     void rotateLeft() {
-
+        direction = direction.prev();
     }
 
-    // TODO Try not to use switch statement
     void rotateRight() {
-
+        direction = direction.next();
     }
 
     Point getPosition() {

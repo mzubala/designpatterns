@@ -5,12 +5,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-// TODO remove rover logic from this class, it should only be responsible for collecting user commands and printing current rover state
 public class MarsRoverApp {
 
-    private int positionX, positionY;
-
-    private Direction direction = Direction.NORTH;
+    private final MarsRover marsRover = new MarsRover();
 
     private final Scanner scanner;
 
@@ -49,34 +46,21 @@ public class MarsRoverApp {
     }
 
     private void move() {
-        switch (direction) {
-            case NORTH -> positionY++;
-            case SOUTH -> positionY--;
-            case EAST -> positionX++;
-            case WEST -> positionX--;
-        }
+        marsRover.move();
     }
 
     private void rotateLeft() {
-        switch (direction) {
-            case NORTH -> direction = Direction.WEST;
-            case SOUTH -> direction = Direction.EAST;
-            case EAST -> direction = Direction.NORTH;
-            case WEST -> direction = Direction.SOUTH;
-        }
+        marsRover.rotateLeft();
     }
 
     private void rotateRight() {
-        switch (direction) {
-            case NORTH -> direction = Direction.EAST;
-            case SOUTH -> direction = Direction.WEST;
-            case EAST -> direction = Direction.SOUTH;
-            case WEST -> direction = Direction.NORTH;
-        }
+        marsRover.rotateRight();
     }
 
     private void printPosition() {
-        out.println(String.format("Current position: (%d, %d), direction: %s", positionX, positionY, direction.name()));
+        var position = marsRover.getPosition();
+        var direction = marsRover.getDirection();
+        out.println(String.format("Current position: %s, direction: %s", position, direction.name()));
     }
 
     private String readCommand() {
