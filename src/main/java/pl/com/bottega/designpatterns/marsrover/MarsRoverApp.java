@@ -1,5 +1,8 @@
 package pl.com.bottega.designpatterns.marsrover;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class MarsRoverApp {
@@ -8,13 +11,20 @@ public class MarsRoverApp {
 
     private Direction direction = Direction.NORTH;
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
 
-    public static void main(String[] args) {
-        new MarsRoverApp().run();
+    private final PrintWriter out;
+
+    MarsRoverApp(InputStream in, OutputStream out) {
+        scanner = new Scanner(in);
+        this.out = new PrintWriter(out, true);
     }
 
-    private void run() {
+    public static void main(String[] args) {
+        new MarsRoverApp(System.in, System.out).run();
+    }
+
+    void run() {
         printPosition();
         while (true) {
             String command = readCommand();
@@ -32,7 +42,7 @@ public class MarsRoverApp {
                     printPosition();
                     break;
                 default:
-                    System.out.println("Sorry, I don't understand");
+                    out.println("Sorry, I don't understand");
             }
         }
     }
@@ -65,7 +75,7 @@ public class MarsRoverApp {
     }
 
     private void printPosition() {
-        System.out.println(String.format("Current position: (%d, %d), direction: %s", positionX, positionY, direction.name()));
+        out.println(String.format("Current position: (%d, %d), direction: %s", positionX, positionY, direction.name()));
     }
 
     private String readCommand() {

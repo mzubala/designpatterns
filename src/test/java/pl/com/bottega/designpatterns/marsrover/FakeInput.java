@@ -1,4 +1,6 @@
-package pl.com.bottega.desigpatterns.marsrover;
+package pl.com.bottega.designpatterns.marsrover;
+
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,21 +13,21 @@ class FakeInput {
 
     private final PipedInputStream pipedInputStream;
 
+    @SneakyThrows
     FakeInput() {
-        try {
-            pipedInputStream = new PipedInputStream(pos);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        pipedInputStream = new PipedInputStream(pos);
     }
 
+    @SneakyThrows
     void input(String line) {
-        try {
-            pos.write((line + "\n").getBytes());
-            pos.flush();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        pos.write((line + "\n").getBytes());
+        pos.flush();
+    }
+
+    @SneakyThrows
+    void close() {
+        pipedInputStream.close();
+        pos.close();
     }
 
     InputStream toInputStream() {
