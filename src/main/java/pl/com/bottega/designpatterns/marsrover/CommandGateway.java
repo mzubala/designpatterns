@@ -9,6 +9,7 @@ class CommandGateway {
 
     private final Map<String, Command> commandMap = new HashMap<>();
 
+    // TODO change this to List<RegularCommand>
     private final List<Command> executedCommands = new LinkedList<>();
 
     private Integer lastExecutedCommandIndex;
@@ -48,7 +49,9 @@ class CommandGateway {
             // TODO handle executedCommands and the lastExecutedCommandIndex
         }
 
-        // TODO implement redo method
+        // TODO it will be useful to add a redo(MarsRover rover) method here that would just delegate to the decorated command's execute
+
+        // TODO implement undo method (just delegate to the decorated)
     }
 
     // TODO implement undo functionality - use executedCommands and lastExecutedCommandIndex
