@@ -99,6 +99,24 @@ class MarsRoverAppTest {
         assertPosition(0, 0, "NORTH");
     }
 
+    @Test
+    void userCanUndoAndRedo() {
+        // given
+        outputAssertions.skipLine();
+
+        // when
+        input.input("m");
+        input.input("m");
+        input.input("undo");
+        input.input("redo");
+        
+        // then
+        assertPosition(0, 1, "NORTH");
+        assertPosition(0, 2, "NORTH");
+        assertPosition(0, 1, "NORTH");
+        assertPosition(0, 2, "NORTH");
+    }
+
     private void assertPosition(int x, int y, String direction) {
         outputAssertions.assertThatNextLine().contains(String.format("(%d, %d)", x, y)).contains(direction);
     }

@@ -4,6 +4,8 @@ interface Command {
     String getCode();
 
     void execute(MarsRover rover);
+
+    // TODO add undo method
 }
 
 class MoveCommand implements Command {
@@ -17,6 +19,8 @@ class MoveCommand implements Command {
     public void execute(MarsRover rover) {
         rover.move();
     }
+
+    // TODO implement the undo method
 }
 
 class RotateLeftCommand implements Command {
@@ -30,6 +34,8 @@ class RotateLeftCommand implements Command {
     public void execute(MarsRover rover) {
         rover.rotateLeft();
     }
+
+    // TODO implement the undo method
 }
 
 class RotateRightCommand implements Command {
@@ -43,6 +49,8 @@ class RotateRightCommand implements Command {
     public void execute(MarsRover rover) {
         rover.rotateRight();
     }
+
+    // TODO implement the undo method
 }
 
 class MoveBackCommand implements Command {
@@ -56,4 +64,6 @@ class MoveBackCommand implements Command {
     public void execute(MarsRover rover) {
         rover.moveBack();
     }
+
+    // TODO implement the undo method
 }
