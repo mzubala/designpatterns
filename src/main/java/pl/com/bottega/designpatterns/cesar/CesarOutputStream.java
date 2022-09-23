@@ -6,7 +6,7 @@ import java.io.OutputStream;
 // TODO decorate output stream with decoding functionality
 class CesarOutputStream extends OutputStream {
 
-    CesarOutputStream(OutputStream decorated, int key) {
+    CesarOutputStream(OutputStream decorated, CesarCoder coder) {
 
     }
 

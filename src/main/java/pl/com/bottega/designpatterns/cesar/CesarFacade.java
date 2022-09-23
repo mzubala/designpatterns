@@ -4,10 +4,10 @@ import java.io.File;
 
 class CesarFacade {
 
-    private final int key;
+    private final CesarCoder coder;
 
     CesarFacade(int key) {
-        this.key = key;
+        coder = new CesarCoder(key);
     }
 
     String encode(String text) {
@@ -21,10 +21,10 @@ class CesarFacade {
     }
 
     void encode(File inputFile, File outputFile) {
-        // TODO rewrite input file to a decorated FileOutputStream
+        // TODO rewrite input file to a decorated FileOutputStream, use IOUtils.copy
     }
 
     void decode(File inputFile, File outputFile) {
-        // TODO rewrite input file from a decorated FileInputStream to an output file
+        // TODO rewrite input file from a decorated FileInputStream to an output file, use IOUtils.copy
     }
 }

@@ -6,7 +6,7 @@ import java.io.InputStream;
 // TODO decorate input stream with encoding functionality
 class CesarInputStream extends InputStream {
 
-    CesarInputStream(InputStream decorated, int key) {
+    CesarInputStream(InputStream decorated, CesarCoder cesarCoder) {
 
     }
 
