@@ -26,7 +26,7 @@ class CommandTest {
 
         // when
         command.execute(rover);
-        // TODO undo command
+        command.undo(rover);
 
         // then
         assertThat(rover.getPosition()).isEqualTo(new Point(0, 2));

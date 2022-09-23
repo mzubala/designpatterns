@@ -5,7 +5,7 @@ interface Command {
 
     void execute(MarsRover rover);
 
-    // TODO add undo method
+    void undo(MarsRover rover);
 }
 
 class MoveCommand implements Command {
@@ -20,7 +20,10 @@ class MoveCommand implements Command {
         rover.move();
     }
 
-    // TODO implement the undo method
+    @Override
+    public void undo(MarsRover rover) {
+        rover.moveBack();
+    }
 }
 
 class RotateLeftCommand implements Command {
@@ -35,7 +38,10 @@ class RotateLeftCommand implements Command {
         rover.rotateLeft();
     }
 
-    // TODO implement the undo method
+    @Override
+    public void undo(MarsRover rover) {
+        rover.rotateRight();
+    }
 }
 
 class RotateRightCommand implements Command {
@@ -50,7 +56,10 @@ class RotateRightCommand implements Command {
         rover.rotateRight();
     }
 
-    // TODO implement the undo method
+    @Override
+    public void undo(MarsRover rover) {
+        rover.rotateLeft();
+    }
 }
 
 class MoveBackCommand implements Command {
@@ -65,5 +74,8 @@ class MoveBackCommand implements Command {
         rover.moveBack();
     }
 
-    // TODO implement the undo method
+    @Override
+    public void undo(MarsRover rover) {
+        rover.move();
+    }
 }
