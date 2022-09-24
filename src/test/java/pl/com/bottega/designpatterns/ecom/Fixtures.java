@@ -1,5 +1,7 @@
 package pl.com.bottega.designpatterns.ecom;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.With;
 import net.datafaker.Faker;
 
@@ -10,11 +12,21 @@ import java.util.UUID;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
+import static pl.com.bottega.designpatterns.ecom.CustomerBuilder.aCustomer;
 import static pl.com.bottega.designpatterns.ecom.FakerHolder.FAKER;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN_USD;
 
 @With
+@AllArgsConstructor
+@NoArgsConstructor
 class CartBuilder {
+
+    CartId cartId = aCartId();
+    CustomerBuilder customer = aCustomer();
+
+    static CartId aCartId() {
+        return new CartId(UUID.randomUUID());
+    }
     static Cart anEmptyCart() {
         return aCart().build();
     }
@@ -24,11 +36,13 @@ class CartBuilder {
     }
 
     Cart build() {
-        return null;
+        return new Cart(cartId, customer.build());
     }
 }
 
 @With
+@AllArgsConstructor
+@NoArgsConstructor
 class ProductBuilder {
     private ProductId productId = aProductId();
     private String name = FAKER.funnyName().name();
@@ -52,6 +66,7 @@ class MoneyFixtures {
 }
 
 @With
+@AllArgsConstructor
 class CategoryBuilder {
     private CategoryId id;
     private String name = FAKER.cat().name();
@@ -63,4 +78,23 @@ class CategoryBuilder {
 
 class FakerHolder {
     static final Faker FAKER = new Faker();
+}
+
+@With
+@AllArgsConstructor
+@NoArgsConstructor
+class CustomerBuilder {
+    CustomerId id = aCustomerId();
+    CustomerType type = CustomerType.OCCASIONAL;
+    static CustomerId aCustomerId() {
+        return new CustomerId(UUID.randomUUID());
+    }
+
+    static CustomerBuilder aCustomer() {
+        return new CustomerBuilder();
+    }
+
+    Customer build() {
+        return new Customer(id, type);
+    }
 }

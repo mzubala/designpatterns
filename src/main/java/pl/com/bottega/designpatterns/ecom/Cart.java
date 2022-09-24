@@ -6,10 +6,13 @@ import java.util.List;
 class Cart {
     private final CartId id;
 
+    private final Customer customer;
+
     private final List<CartItem> items = new LinkedList<>();
 
-    Cart(CartId id) {
+    Cart(CartId id, Customer customer) {
         this.id = id;
+        this.customer = customer;
     }
 
     void add(Product product) {
@@ -29,6 +32,6 @@ class Cart {
     }
 
     List<CartItem.Snapshot> getItems() {
-        return null;
+        return items.stream().map(CartItem::getSnapshot).toList();
     }
 }

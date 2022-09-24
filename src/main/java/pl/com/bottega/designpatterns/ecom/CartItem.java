@@ -17,6 +17,10 @@ class CartItem {
         return null;
     }
 
+    Snapshot getSnapshot() {
+        return null;
+    }
+
     record Snapshot(
         Product product, Integer count, Money total
     ) {

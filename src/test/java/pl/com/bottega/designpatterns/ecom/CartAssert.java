@@ -1,16 +1,17 @@
 package pl.com.bottega.designpatterns.ecom;
 
 import io.vavr.Tuple2;
-import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ObjectAssert;
 
-class CartAssert extends AbstractAssert<CartAssert, Cart> {
+class CartAssert extends ObjectAssert<Cart> {
 
     static CartAssert assertThat(Cart cart) {
         return new CartAssert(cart);
     }
 
     protected CartAssert(Cart cart) {
-        super(cart, CartAssert.class);
+        super(cart);
     }
 
     CartAssert hasTotal(Money expectedTotal) {
@@ -27,5 +28,10 @@ class CartAssert extends AbstractAssert<CartAssert, Cart> {
 
     CartAssert containsExactlyInTheSameOrder(Tuple2<ProductId, Integer>... productsWithCounts) {
         return null;
+    }
+
+    CartAssert isEmpty() {
+        Assertions.assertThat(actual.getItems()).isEmpty();
+        return this;
     }
 }
