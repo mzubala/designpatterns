@@ -13,6 +13,8 @@ repositories {
 dependencies {
     implementation("commons-io:commons-io:2.6")
     implementation("io.vavr:vavr:0.10.4")
+    implementation("com.google.guava:guava:31.1-jre")
+
     testImplementation("org.assertj:assertj-core:3.23.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.1")

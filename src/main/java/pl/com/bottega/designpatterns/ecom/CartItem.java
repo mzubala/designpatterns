@@ -10,15 +10,19 @@ class CartItem {
     }
 
     void updateCount(Integer newCount) {
-
+        this.count = newCount;
     }
 
     Money getTotal() {
-        return null;
+        return product.price().times(count);
     }
 
     Snapshot getSnapshot() {
-        return null;
+        return new Snapshot(product, count, getTotal());
+    }
+
+    ProductId getProductId() {
+        return product.id();
     }
 
     record Snapshot(
