@@ -7,6 +7,7 @@ class CartItem {
     CartItem(Product product, Integer count) {
         this.product = product;
         this.count = count;
+        // TODO add cart
     }
 
     void updateCount(Integer newCount) {
@@ -14,6 +15,7 @@ class CartItem {
     }
 
     Money getTotal() {
+        // add tax
         return product.price().times(count);
     }
 

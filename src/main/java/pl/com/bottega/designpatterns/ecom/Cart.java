@@ -16,10 +16,14 @@ class Cart {
     Cart(CartId id, Customer customer) {
         this.id = id;
         this.customer = customer;
+        // TODO add the TaxPolicy as a param
     }
+
+    // TODO expose TaxPolicy and Customer with getters
 
     void add(Product product) {
         checkArgument(product.price().currency().equals(customer.preferredCurrency()));
+        // TODO pass cart as a param
         items.add(new CartItem(product, 1));
     }
 
