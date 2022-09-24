@@ -6,10 +6,13 @@ import java.util.List;
 class Cart {
     private final CartId id;
 
+    private final Customer customer;
+
     private final List<CartItem> items = new LinkedList<>();
 
-    Cart(CartId id) {
+    Cart(CartId id, Customer customer) {
         this.id = id;
+        this.customer = customer;
     }
 
     void add(Product product) {
