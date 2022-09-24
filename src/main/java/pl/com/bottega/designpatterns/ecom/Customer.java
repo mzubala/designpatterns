@@ -1,6 +1,8 @@
 package pl.com.bottega.designpatterns.ecom;
 
-record Customer(CustomerId id, CustomerType customerType) {
+import java.util.Currency;
+
+record Customer(CustomerId id, CustomerType customerType, Currency preferredCurrency) {
 }
 
 enum CustomerType {

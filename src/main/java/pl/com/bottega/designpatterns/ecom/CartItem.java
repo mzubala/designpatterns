@@ -10,10 +10,21 @@ class CartItem {
     }
 
     void updateCount(Integer newCount) {
-
+        // TODO
     }
 
     Money getTotal() {
+        // TODO
+        return null;
+    }
+
+    Snapshot getSnapshot() {
+        // TODO
+        return null;
+    }
+
+    ProductId getProductId() {
+        // TODO
         return null;
     }
 

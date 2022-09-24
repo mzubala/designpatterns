@@ -11,10 +11,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.TEN;
+import static pl.com.bottega.designpatterns.ecom.CategoryBuilder.aCategory;
 import static pl.com.bottega.designpatterns.ecom.CustomerBuilder.aCustomer;
 import static pl.com.bottega.designpatterns.ecom.FakerHolder.FAKER;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN_USD;
+import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.USD;
 
 @With
 @AllArgsConstructor
@@ -27,6 +28,7 @@ class CartBuilder {
     static CartId aCartId() {
         return new CartId(UUID.randomUUID());
     }
+
     static Cart anEmptyCart() {
         return aCart().build();
     }
@@ -47,22 +49,32 @@ class ProductBuilder {
     private ProductId productId = aProductId();
     private String name = FAKER.funnyName().name();
     private Money price = FIFTEEN_USD;
-    private Set<CategoryBuilder> categories = Set.of();
+    private Set<CategoryBuilder> categories = Set.of(aCategory());
 
-    ProductId aProductId() {
+    static ProductBuilder aProduct() {
+        return new ProductBuilder();
+    }
+
+    static ProductId aProductId() {
         return new ProductId(UUID.randomUUID());
     }
 
     Product build() {
+        // TODO
         return null;
     }
 }
 
 class MoneyFixtures {
-    static final Money FIVE_USD = new Money(new BigDecimal(5), Currency.getInstance("USD"));
-    static final Money TEN_USD = new Money(TEN, Currency.getInstance("USD"));
-    static final Money FIFTEEN_USD = new Money(new BigDecimal(15), Currency.getInstance("USD"));
-    static final Money ONE_EUR = new Money(ONE, Currency.getInstance("EUR"));
+    static final Currency USD = Currency.getInstance("USD");
+    static final Currency EUR = Currency.getInstance("EUR");
+    static final Money FIVE_USD = new Money(new BigDecimal(5), USD);
+    static final Money TEN_USD = new Money(BigDecimal.TEN, USD);
+    static final Money FIFTEEN_USD = new Money(new BigDecimal(15), USD);
+    static final Money FIVE = new Money(new BigDecimal(5), USD);
+    static final Money TEN = new Money(BigDecimal.TEN);
+    static final Money FIFTEEN = new Money(new BigDecimal(15));
+    static final Money ONE_EUR = new Money(ONE, EUR);
 }
 
 @With
@@ -72,7 +84,12 @@ class CategoryBuilder {
     private CategoryId id;
     private String name = FAKER.cat().name();
 
+    static CategoryBuilder aCategory() {
+        return new CategoryBuilder();
+    }
+
     Category build() {
+        // TODO
         return null;
     }
 }
@@ -87,6 +104,9 @@ class FakerHolder {
 class CustomerBuilder {
     CustomerId id = aCustomerId();
     CustomerType type = CustomerType.OCCASIONAL;
+
+    Currency preferredCurrency = USD;
+
     static CustomerId aCustomerId() {
         return new CustomerId(UUID.randomUUID());
     }
@@ -96,6 +116,6 @@ class CustomerBuilder {
     }
 
     Customer build() {
-        return new Customer(id, type);
+        return new Customer(id, type, preferredCurrency);
     }
 }

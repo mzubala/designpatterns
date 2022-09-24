@@ -16,22 +16,24 @@ class Cart {
     }
 
     void add(Product product) {
-
+        // TODO
     }
 
     void remove(ProductId pid) {
-
+        // TODO
     }
 
     void updateCount(ProductId pid, Integer newCount) {
-
+        // TODO
     }
 
     Money getTotal() {
+        // TODO
         return null;
     }
 
     List<CartItem.Snapshot> getItems() {
+        // TODO
         return null;
     }
 }

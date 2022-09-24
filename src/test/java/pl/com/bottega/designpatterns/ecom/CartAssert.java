@@ -20,18 +20,22 @@ class CartAssert extends ObjectAssert<Cart> {
     }
 
     CartAssert hasTotal(Money expectedTotal) {
+        Assertions.assertThat(actual.getTotal()).isEqualTo(expectedTotal);
         return this;
     }
 
     CartAssert containsProduct(ProductId productId) {
+        // TODO
         return this;
     }
 
     CartAssert doesNotContainProduct(ProductId productId) {
+        // TODO
         return this;
     }
 
-    CartAssert containsExactlyInTheSameOrder(Tuple2<ProductId, Integer>... productsWithCounts) {
-        return null;
+    CartAssert containsExactlyInTheSameOrder(Tuple2<Product, Integer>... productsWithCounts) {
+        // TODO
+        return this;
     }
 }

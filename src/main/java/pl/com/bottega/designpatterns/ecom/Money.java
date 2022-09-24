@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Locale;
 
+import static java.math.BigDecimal.ZERO;
+
 record Money(BigDecimal value, Currency currency) implements Comparable<Money> {
 
     Money(BigDecimal value) {
@@ -14,6 +16,14 @@ record Money(BigDecimal value, Currency currency) implements Comparable<Money> {
     Money(BigDecimal value, Currency currency) {
         this.value = value.setScale(2, RoundingMode.HALF_UP);
         this.currency = currency;
+    }
+
+    static Money zero() {
+        return new Money(ZERO);
+    }
+
+    static Money zero(Currency currency) {
+        return new Money(ZERO, currency);
     }
 
     Money add(Money other) {
