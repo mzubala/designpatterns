@@ -27,4 +27,8 @@ class Cart {
     Money getTotal() {
         return null;
     }
+
+    List<CartItem.Snapshot> getItems() {
+        return null;
+    }
 }

@@ -18,7 +18,7 @@ class CartItem {
     }
 
     record Snapshot(
-        Product product, Integer count
+        Product product, Integer count, Money total
     ) {
     }
 }
