@@ -163,4 +163,22 @@ class CartTest {
         // expect
         assertThatThrownBy(() -> cart.add(product)).isInstanceOfAny(IllegalArgumentException.class);
     }
+
+    @Test
+    void addsTaxToTotal() {
+        // given
+        var p1 = aProduct().withPrice(FIVE_USD).build();
+        var p2 = aProduct().withPrice(TEN_USD).build();
+        var cart = aCart().withTaxPolicy(new FixedRateTaxPolicy(new BigDecimal(0.1))).build();
+        cart.add(p1);
+        cart.add(p2);
+        cart.updateCount(p1.id(), 4);
+        cart.updateCount(p2.id(), 2);
+
+        // when
+        var total = cart.getTotal();
+
+        // then
+        assertThat(cart).hasTotal(new Money(new BigDecimal(44), USD));
+    }
 }

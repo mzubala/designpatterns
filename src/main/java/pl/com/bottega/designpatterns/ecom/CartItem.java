@@ -1,13 +1,14 @@
 package pl.com.bottega.designpatterns.ecom;
 
 class CartItem {
+    private final Cart cart;
     private Product product;
     private Integer count;
 
-    CartItem(Product product, Integer count) {
+    CartItem(Cart cart, Product product, Integer count) {
+        this.cart = cart;
         this.product = product;
         this.count = count;
-        // TODO add cart
     }
 
     void updateCount(Integer newCount) {
@@ -15,8 +16,7 @@ class CartItem {
     }
 
     Money getTotal() {
-        // add tax
-        return product.price().times(count);
+        return product.price().times(count).add(getTax());
     }
 
     Snapshot getSnapshot() {
@@ -25,6 +25,10 @@ class CartItem {
 
     ProductId getProductId() {
         return product.id();
+    }
+
+    private Money getTax() {
+        return cart.getTaxPolicy().calculate(new TaxPolicy.TaxQuery(product, count, cart.getCustomer()));
     }
 
     record Snapshot(

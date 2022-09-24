@@ -27,7 +27,7 @@ class CartBuilder {
     CartId cartId = aCartId();
     CustomerBuilder customer = aCustomer();
 
-    // add tax policy defaulting to NoTaxPolicy
+    TaxPolicy taxPolicy = new NoTaxPolicy();
 
     static CartId aCartId() {
         return new CartId(UUID.randomUUID());
@@ -42,7 +42,7 @@ class CartBuilder {
     }
 
     Cart build() {
-        return new Cart(cartId, customer.build());
+        return new Cart(cartId, customer.build(), taxPolicy);
     }
 }
 

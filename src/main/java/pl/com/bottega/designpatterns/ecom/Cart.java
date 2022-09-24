@@ -10,21 +10,19 @@ class Cart {
     private final CartId id;
 
     private final Customer customer;
+    private final TaxPolicy taxPolicy;
 
     private final List<CartItem> items = new LinkedList<>();
 
-    Cart(CartId id, Customer customer) {
+    Cart(CartId id, Customer customer, TaxPolicy taxPolicy) {
         this.id = id;
         this.customer = customer;
-        // TODO add the TaxPolicy as a param
+        this.taxPolicy = taxPolicy;
     }
-
-    // TODO expose TaxPolicy and Customer with getters
 
     void add(Product product) {
         checkArgument(product.price().currency().equals(customer.preferredCurrency()));
-        // TODO pass cart as a param
-        items.add(new CartItem(product, 1));
+        items.add(new CartItem(this, product, 1));
     }
 
     void remove(ProductId pid) {
@@ -45,6 +43,14 @@ class Cart {
 
     List<CartItem.Snapshot> getItems() {
         return items.stream().map(CartItem::getSnapshot).toList();
+    }
+
+    Customer getCustomer() {
+        return customer;
+    }
+
+    TaxPolicy getTaxPolicy() {
+        return taxPolicy;
     }
 
     private static Predicate<CartItem> itemWithId(ProductId pid) {
