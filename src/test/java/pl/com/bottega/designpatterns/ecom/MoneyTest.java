@@ -6,17 +6,15 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
 
-import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN_USD;
+import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIVE_USD;
+import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.ONE_EUR;
+import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.TEN_USD;
 
 class MoneyTest {
-
-    private final Money fiveUsd = new Money(new BigDecimal(5), Currency.getInstance("USD"));
-    private final Money tenUsd = new Money(TEN, Currency.getInstance("USD"));
-    private final Money fifteenUsd = new Money(new BigDecimal(15), Currency.getInstance("USD"));
-    private final Money oneEur = new Money(ONE, Currency.getInstance("EUR"));
 
     @Test
     void createsMoneyWithDefaultCurrency() {
@@ -25,40 +23,40 @@ class MoneyTest {
 
     @Test
     void addsMoney() {
-        assertThat(fiveUsd.add(tenUsd)).isEqualTo(fifteenUsd);
-        assertThat(fiveUsd.add(fiveUsd)).isEqualTo(tenUsd);
+        assertThat(FIVE_USD.add(TEN_USD)).isEqualTo(FIFTEEN_USD);
+        assertThat(FIVE_USD.add(FIVE_USD)).isEqualTo(TEN_USD);
     }
 
     @Test
     void subtractsMoney() {
-        assertThat(tenUsd.sub(fiveUsd)).isEqualTo(fiveUsd);
-        assertThat(fifteenUsd.sub(tenUsd)).isEqualTo(fiveUsd);
+        assertThat(TEN_USD.sub(FIVE_USD)).isEqualTo(FIVE_USD);
+        assertThat(FIFTEEN_USD.sub(TEN_USD)).isEqualTo(FIVE_USD);
     }
 
     @Test
     void multipliesMoneyByANumber() {
-        assertThat(tenUsd.times(2)).isEqualTo(new Money(new BigDecimal(20), Currency.getInstance("USD")));
-        assertThat(fiveUsd.times(new BigDecimal(3.0))).isEqualTo(fifteenUsd);
-        assertThat(fifteenUsd.times(new BigDecimal(0.33333))).isEqualTo(fiveUsd);
+        assertThat(TEN_USD.times(2)).isEqualTo(new Money(new BigDecimal(20), Currency.getInstance("USD")));
+        assertThat(FIVE_USD.times(new BigDecimal(3.0))).isEqualTo(FIFTEEN_USD);
+        assertThat(FIFTEEN_USD.times(new BigDecimal(0.33333))).isEqualTo(FIVE_USD);
     }
 
     @Test
     void comparesMoney() {
-        assertThat(tenUsd.compareTo(fiveUsd)).isGreaterThan(0);
-        assertThat(tenUsd.compareTo(fifteenUsd)).isLessThan(0);
-        assertThat(tenUsd.compareTo(new Money(TEN, Currency.getInstance("USD")))).isEqualTo(0);
+        assertThat(TEN_USD.compareTo(FIVE_USD)).isGreaterThan(0);
+        assertThat(TEN_USD.compareTo(FIFTEEN_USD)).isLessThan(0);
+        assertThat(TEN_USD.compareTo(new Money(TEN, Currency.getInstance("USD")))).isEqualTo(0);
     }
 
     @Test
     void cannotPerformOperationsOnDifferentCurrencies() {
         assertThatThrownBy(() -> {
-            fiveUsd.add(oneEur);
+            FIVE_USD.add(ONE_EUR);
         }).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> {
-            fiveUsd.sub(oneEur);
+            FIVE_USD.sub(ONE_EUR);
         }).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> {
-            fiveUsd.compareTo(oneEur);
+            FIVE_USD.compareTo(ONE_EUR);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 }
