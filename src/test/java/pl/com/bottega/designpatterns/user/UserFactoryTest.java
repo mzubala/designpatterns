@@ -51,4 +51,16 @@ public class UserFactoryTest  {
         assertThatThrownBy(() -> standardUser.getRole(OrderCorrectorRole.class)).isInstanceOf(RuntimeException.class);
     }
 
+    @Test
+    public void changesUserViaTheRoleObject() {
+        // given
+        User supervisorUser = userFactory.supervisorUser("test", "test");
+
+        // when
+        supervisorUser.addRole(new OrderCorrectorRole());
+
+        // then
+        assertThat(supervisorUser.getRole(OrderCorrectorRole.class)).isInstanceOf(OrderCorrectorRole.class);
+    }
+
 }
