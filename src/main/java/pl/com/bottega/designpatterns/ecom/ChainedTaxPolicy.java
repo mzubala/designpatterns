@@ -13,10 +13,14 @@ class ChainedTaxPolicy implements TaxPolicy {
 
     @Override
     public Money calculate(TaxQuery query) {
-        // TODO find first link that can handle query and delegate to it. If no link can be found, throw an exception.
-        return null;
+        return links.stream().filter(link -> link.canHandle(query)).findFirst()
+            .map(link -> link.calculate(query))
+            .orElseThrow(() -> unsupportedQuery(query));
     }
 
+    private static IllegalArgumentException unsupportedQuery(TaxQuery query) {
+        return new IllegalArgumentException(String.format("Do know how to calculate tax for %s", query.toString()));
+    }
     interface ChainedTaxPolicyLink extends TaxPolicy {
         boolean canHandle(TaxQuery query);
     }

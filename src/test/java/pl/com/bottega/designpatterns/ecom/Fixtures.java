@@ -1,7 +1,6 @@
 package pl.com.bottega.designpatterns.ecom;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.datafaker.Faker;
@@ -16,9 +15,9 @@ import static java.math.BigDecimal.ONE;
 import static pl.com.bottega.designpatterns.ecom.CategoryBuilder.aCategory;
 import static pl.com.bottega.designpatterns.ecom.CustomerBuilder.aCustomer;
 import static pl.com.bottega.designpatterns.ecom.FakerHolder.FAKER;
-import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN_USD;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.USD;
+import static pl.com.bottega.designpatterns.ecom.ProductBuilder.aProduct;
 import static pl.com.bottega.designpatterns.ecom.USAddressBuilder.aUSAddress;
 
 @With
@@ -171,5 +170,25 @@ class USAddressBuilder implements AddressBuilder {
     @Override
     public Address build() {
         return new USAddress(line1, line2, state, zipCode, city);
+    }
+}
+
+@NoArgsConstructor
+@AllArgsConstructor
+@With
+class TaxQueryBuilder {
+
+    ProductBuilder product = aProduct();
+
+    CustomerBuilder customer = aCustomer();
+
+    Integer count = 1;
+
+    static TaxQueryBuilder aTaxQuery() {
+        return new TaxQueryBuilder();
+    }
+
+    TaxPolicy.TaxQuery build() {
+        return new TaxPolicy.TaxQuery(product.build(), count, customer.build());
     }
 }
