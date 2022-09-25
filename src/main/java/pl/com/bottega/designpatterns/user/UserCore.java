@@ -25,16 +25,13 @@ public class UserCore implements User {
 
     @Override
     public <T extends UserRole> T getRole(Class<T> roleClass) {
-        return (T) roles.stream().
-                filter(role -> role.getClass().equals(roleClass)).
-                findFirst().
-                orElseThrow(() -> new RuntimeException("User has no such role"));
+        // TODO
+        return null;
     }
 
     @Override
     public void addRole(UserRole userRole) {
-        userRole.setUserCore(this);
-        roles.add(userRole);
+        // TODO
     }
 
     @Override

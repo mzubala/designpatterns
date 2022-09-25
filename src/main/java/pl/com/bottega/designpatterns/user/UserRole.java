@@ -16,22 +16,23 @@ public abstract class UserRole implements User {
 
     @Override
     public <T extends UserRole> T getRole(Class<T> roleClass) {
-        return userCore.getRole(roleClass);
+        // TODO
+        return null;
     }
 
     @Override
     public void addRole(UserRole userRole) {
-        userCore.addRole(userRole);
+        // TODO
     }
 
     @Override
     public void changePassword(String newPassword) {
-        userCore.changePassword(newPassword);
+        // TODO
     }
 
     @Override
     public void saveLastLoginDate(Clock clock) {
-        userCore.saveLastLoginDate(clock);
+        // TODO
     }
 
     void setUserCore(UserCore userCore) {
