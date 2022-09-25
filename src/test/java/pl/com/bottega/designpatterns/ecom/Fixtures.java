@@ -1,6 +1,7 @@
 package pl.com.bottega.designpatterns.ecom;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.datafaker.Faker;
@@ -18,6 +19,7 @@ import static pl.com.bottega.designpatterns.ecom.FakerHolder.FAKER;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.FIFTEEN_USD;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.USD;
+import static pl.com.bottega.designpatterns.ecom.USAddressBuilder.aUSAddress;
 
 @With
 @AllArgsConstructor
@@ -109,6 +111,8 @@ class CustomerBuilder {
 
     Currency preferredCurrency = USD;
 
+    AddressBuilder address = aUSAddress();
+
     static CustomerId aCustomerId() {
         return new CustomerId(UUID.randomUUID());
     }
@@ -118,6 +122,54 @@ class CustomerBuilder {
     }
 
     Customer build() {
-        return new Customer(id, type, preferredCurrency);
+        return new Customer(id, type, preferredCurrency, address.build());
+    }
+}
+
+interface AddressBuilder {
+    Address build();
+}
+
+@With
+@NoArgsConstructor
+@AllArgsConstructor
+class PLAddressBuilder implements AddressBuilder {
+
+    String street = "ul. Północna";
+    String houseNumber = "1";
+    String localNumber = "20";
+    String postalCode = "00-100";
+    String postOffice = "Warszawa";
+
+    static PLAddressBuilder aPLAddress() {
+        return new PLAddressBuilder();
+    }
+
+    @Override
+    public Address build() {
+        return new PLAddress(street, houseNumber, localNumber, postalCode, postOffice);
+    }
+}
+
+@With
+@NoArgsConstructor
+@AllArgsConstructor
+class USAddressBuilder implements AddressBuilder {
+
+    net.datafaker.Address fakerAddress = FAKER.address();
+
+    String line1 = fakerAddress.streetAddress();
+    String line2 = fakerAddress.secondaryAddress();
+    USState state = USState.valueByAbbr(fakerAddress.stateAbbr());
+    String zipCode = fakerAddress.zipCode();
+    String city = fakerAddress.cityName();
+
+    static USAddressBuilder aUSAddress() {
+        return new USAddressBuilder();
+    }
+
+    @Override
+    public Address build() {
+        return new USAddress(line1, line2, state, zipCode, city);
     }
 }
