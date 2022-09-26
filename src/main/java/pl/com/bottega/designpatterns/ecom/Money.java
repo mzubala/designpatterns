@@ -7,40 +7,40 @@ import java.util.Locale;
 
 import static java.math.BigDecimal.ZERO;
 
-record Money(BigDecimal value, Currency currency) implements Comparable<Money> {
+public record Money(BigDecimal value, Currency currency) implements Comparable<Money> {
 
-    Money(BigDecimal value) {
+    public Money(BigDecimal value) {
         this(value, Currency.getInstance(Locale.getDefault()));
     }
 
-    Money(BigDecimal value, Currency currency) {
+    public Money(BigDecimal value, Currency currency) {
         this.value = value.setScale(2, RoundingMode.HALF_UP);
         this.currency = currency;
     }
 
-    static Money zero() {
+    public static Money zero() {
         return new Money(ZERO);
     }
 
-    static Money zero(Currency currency) {
+    public static Money zero(Currency currency) {
         return new Money(ZERO, currency);
     }
 
-    Money add(Money other) {
+    public Money add(Money other) {
         ensureSameCurrency(other);
         return new Money(value.add(other.value), currency);
     }
 
-    Money sub(Money other) {
+    public Money sub(Money other) {
         ensureSameCurrency(other);
         return new Money(value.subtract(other.value), currency);
     }
 
-    Money times(int n) {
+    public Money times(int n) {
         return new Money(value.multiply(new BigDecimal(n)), currency);
     }
 
-    Money times(BigDecimal n) {
+    public Money times(BigDecimal n) {
         return new Money(value.multiply(n), currency);
     }
 
