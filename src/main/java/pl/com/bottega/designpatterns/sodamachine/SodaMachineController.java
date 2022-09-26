@@ -12,6 +12,9 @@ class SodaMachineController {
 
     private final DrinkDispenser drinkDispenser;
 
+    // TODO declare state here
+
+    // TODO get rid of the below fields - move them to the state classes
     private List<Coin> insertedCoins = new LinkedList<>();
     private Money insertedCoinsValue = Money.zero();
 
@@ -24,8 +27,14 @@ class SodaMachineController {
         this.display.show("Dzień dobry! Zawsze Coca Cola!");
     }
 
+    void switchState(SodaMachineState newState) {
+        // TODO assign the new state
+    }
+
+    // TODO the below methods should delegate to the state object
+    //  TODO their current content should be moved to proper state classes and state switching should also be added
     void coinInserted(Coin coin) {
-        if(dispensing) {
+        if (dispensing) {
             ledger.dispense(coin);
         }
         insertedCoins.add(coin);
@@ -34,7 +43,7 @@ class SodaMachineController {
     }
 
     void cancelRequested() {
-        if(dispensing) {
+        if (dispensing) {
             return;
         }
         insertedCoins.forEach(ledger::dispense);
@@ -45,7 +54,7 @@ class SodaMachineController {
 
     void drinkRequested(Drink drink) {
         if (insertedCoins.size() > 0) {
-            if(insertedCoinsValue.compareTo(drink.price) >= 0) {
+            if (insertedCoinsValue.compareTo(drink.price) >= 0) {
                 dispenseChange(drink);
                 drinkDispenser.dispense(drink);
                 dispensing = true;
@@ -74,9 +83,9 @@ class SodaMachineController {
 
     private void dispenseChange(Drink drink) {
         var change = insertedCoinsValue.sub(drink.price);
-        for(int i = Coin.values().length - 1; i>0 && change.compareTo(Money.zero()) > 0;) {
+        for (int i = Coin.values().length - 1; i > 0 && change.compareTo(Money.zero()) > 0; ) {
             var coin = Coin.values()[i];
-            if(change.compareTo(coin.value) >= 0 && ledger.getCoinsCount(coin) > 0) {
+            if (change.compareTo(coin.value) >= 0 && ledger.getCoinsCount(coin) > 0) {
                 ledger.dispense(coin);
                 change = change.sub(coin.value);
             } else {
