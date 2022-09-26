@@ -12,9 +12,9 @@ interface DrinkDispenser {
 
 enum Drink {
     COLA(new Money(new BigDecimal(5))),
-    COLA_LIGHT(new Money(new BigDecimal(5))),
-    FANTA(new Money(new BigDecimal(5))),
-    SPRITE(new Money(new BigDecimal(5))),
+    COLA_LIGHT(new Money(new BigDecimal(5.5))),
+    FANTA(new Money(new BigDecimal(4.5))),
+    SPRITE(new Money(new BigDecimal(4))),
     WATER(new Money(new BigDecimal(3)));
 
     Money price;
