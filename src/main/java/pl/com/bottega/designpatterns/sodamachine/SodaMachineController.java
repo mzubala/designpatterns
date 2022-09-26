@@ -12,11 +12,7 @@ class SodaMachineController {
 
     private final DrinkDispenser drinkDispenser;
 
-    // TODO declare state here
-
-    // TODO get rid of the below fields - move them to the state classes
-    private List<Coin> insertedCoins = new LinkedList<>();
-    private Money insertedCoinsValue = Money.zero();
+    private SodaMachineState state;
 
     private Boolean dispensing = false;
 
@@ -24,73 +20,50 @@ class SodaMachineController {
         this.display = display;
         this.ledger = ledger;
         this.drinkDispenser = dispenser;
-        this.display.show("Dzień dobry! Zawsze Coca Cola!");
+        this.state = new ReadySodaMachine(this);
     }
 
     void switchState(SodaMachineState newState) {
-        // TODO assign the new state
+        state = newState;
     }
 
-    // TODO the below methods should delegate to the state object
-    //  TODO their current content should be moved to proper state classes and state switching should also be added
     void coinInserted(Coin coin) {
-        if (dispensing) {
-            ledger.dispense(coin);
-        }
-        insertedCoins.add(coin);
-        insertedCoinsValue = insertedCoinsValue.add(coin.value);
-        this.display.show(String.format("Kwota: %s", format(insertedCoinsValue)));
+        state.coinInserted(coin);
     }
 
     void cancelRequested() {
-        if (dispensing) {
-            return;
-        }
-        insertedCoins.forEach(ledger::dispense);
-        insertedCoins.clear();
-        insertedCoinsValue = Money.zero();
-        display.show("Dzień dobry! Zawsze Coca Cola!");
+        state.cancelRequested();
     }
 
     void drinkRequested(Drink drink) {
-        if (insertedCoins.size() > 0) {
-            if (insertedCoinsValue.compareTo(drink.price) >= 0) {
-                dispenseChange(drink);
-                drinkDispenser.dispense(drink);
-                dispensing = true;
-                display.show("Wydawanie. Proszę czekać...");
-            } else {
-                this.display.showBriefly(String.format("Brakuje %s", format(drink.price.sub(insertedCoinsValue))));
-            }
-        } else {
-            var price = drink.price;
-            var formattedMoney = format(price);
-            this.display.showBriefly(String.format("%s %s", drink.name(), formattedMoney));
-        }
+        state.drinkRequested(drink);
     }
 
     void drinkDispensed() {
-        insertedCoins.clear();
-        insertedCoinsValue = Money.zero();
-        dispensing = false;
-        display.showBriefly("Odbierz napój. Dziękuję!");
-        display.show("Dzień dobry! Zawsze Coca Cola!");
+        state.drinkDispensed();
     }
 
-    private static String format(Money price) {
-        return String.format("%s %s", price.value().toString(), price.currency().getCurrencyCode());
+    void show(String message) {
+        display.show(message);
     }
 
-    private void dispenseChange(Drink drink) {
-        var change = insertedCoinsValue.sub(drink.price);
-        for (int i = Coin.values().length - 1; i > 0 && change.compareTo(Money.zero()) > 0; ) {
-            var coin = Coin.values()[i];
-            if (change.compareTo(coin.value) >= 0 && ledger.getCoinsCount(coin) > 0) {
-                ledger.dispense(coin);
-                change = change.sub(coin.value);
-            } else {
-                i--;
-            }
-        }
+    void dispense(Coin coin) {
+        ledger.dispense(coin);
+    }
+
+    void showBriefly(String message) {
+        display.showBriefly(message);
+    }
+
+    String format(Money amount) {
+        return String.format("%s %s", amount.value().toString(), amount.currency().getCurrencyCode());
+    }
+
+    Integer getCoinsCount(Coin coin) {
+        return ledger.getCoinsCount(coin);
+    }
+
+    void dispense(Drink drink) {
+        drinkDispenser.dispense(drink);
     }
 }
