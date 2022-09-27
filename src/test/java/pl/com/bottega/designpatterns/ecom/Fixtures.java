@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.math.BigDecimal.ONE;
 import static pl.com.bottega.designpatterns.ecom.CategoryBuilder.aCategory;
@@ -61,7 +62,10 @@ class ProductBuilder {
 
     Product build() {
         // TODO
-        return null;
+        return new Product(productId, name, price,
+            categories.stream().map(CategoryBuilder::build)
+                .collect(Collectors.toSet())
+        );
     }
 }
 

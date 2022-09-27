@@ -21,4 +21,9 @@ class CesarInputStream extends InputStream {
         }
         return coder.decode((char) b);
     }
+
+    @Override
+    public void close() throws IOException {
+        decorated.close();
+    }
 }
