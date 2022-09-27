@@ -181,4 +181,66 @@ class CartTest {
         // then
         assertThat(cart).hasTotal(new Money(new BigDecimal(44), USD));
     }
+
+    @Test
+    void evaluatesRebatesAfterAddingItemsToCart() {
+        // given
+        var p1 = aProduct().withPrice(FIVE_USD).build();
+        var p2 = aProduct().withPrice(FIFTEEN_USD).build();
+        var rebatePolicy = new FakeRebatePolicy();
+        rebatePolicy.givenRebates(Tuple.of(p2, FIVE_USD), Tuple.of(p2, FIVE_USD));
+        var cart = aCart().withRebatePolicy(rebatePolicy).build();
+
+        // when
+        cart.add(p1);
+        cart.add(p2);
+
+        // then
+        assertThat(cart).hasTotal(TEN_USD);
+
+        // given
+        var p3 = aProduct().withPrice(FIFTEEN_USD).build();
+        rebatePolicy.givenRebates(Tuple.of(p3, FIVE_USD));
+
+        // when
+        cart.add(p3);
+
+        // then
+        assertThat(cart).hasTotal(new Money(new BigDecimal(20), USD));
+    }
+
+    @Test
+    void evaluatesRebatesAfterRemovingAndUpdatingItemQuantity() {
+        // given
+        var p1 = aProduct().withPrice(FIVE_USD).build();
+        var p2 = aProduct().withPrice(FIFTEEN_USD).build();
+        var rebatePolicy = new FakeRebatePolicy();
+        rebatePolicy.givenRebates(Tuple.of(p2, FIVE_USD), Tuple.of(p2, FIVE_USD));
+        var cart = aCart().withRebatePolicy(rebatePolicy).build();
+
+        // when
+        cart.add(p1);
+        cart.add(p2);
+
+        // then
+        assertThat(cart).hasTotal(TEN_USD);
+
+        // given
+        rebatePolicy.givenNoRebates();
+
+        // when
+        cart.remove(p1.id());
+
+        // then
+        assertThat(cart).hasTotal(FIFTEEN_USD);
+
+        // given
+        rebatePolicy.givenRebates(Tuple.of(p2, FIVE_USD));
+
+        // when
+        cart.updateCount(p2.id(), 5);
+
+        // then
+        assertThat(cart).hasTotal(new Money(new BigDecimal(70), USD));
+    }
 }

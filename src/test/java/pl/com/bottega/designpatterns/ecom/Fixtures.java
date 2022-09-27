@@ -7,6 +7,7 @@ import net.datafaker.Faker;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,6 +31,8 @@ class CartBuilder {
 
     TaxPolicy taxPolicy = new NoTaxPolicy();
 
+    RebatePolicy rebatePolicy = (items) -> List.of();
+
     static CartId aCartId() {
         return new CartId(UUID.randomUUID());
     }
@@ -43,7 +46,7 @@ class CartBuilder {
     }
 
     Cart build() {
-        return new Cart(cartId, customer.build(), taxPolicy);
+        return new Cart(cartId, customer.build(), taxPolicy, rebatePolicy);
     }
 }
 
