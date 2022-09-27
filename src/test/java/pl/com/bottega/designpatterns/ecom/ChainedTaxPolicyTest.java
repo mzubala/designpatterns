@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import static pl.com.bottega.designpatterns.ecom.CustomerBuilder.aCustomer;
 import static pl.com.bottega.designpatterns.ecom.MoneyFixtures.TEN_USD;
 import static pl.com.bottega.designpatterns.ecom.ProductBuilder.aProduct;
+import static pl.com.bottega.designpatterns.ecom.TaxQueryBuilder.aTaxQuery;
 
 class ChainedTaxPolicyTest {
 
@@ -22,7 +23,7 @@ class ChainedTaxPolicyTest {
     @Test
     void calculatesTaxUsingFirstLinkSupportingTheQuery() {
         // given
-        var query = new TaxPolicy.TaxQuery(aProduct().build(), 2, aCustomer().build());
+        var query = aTaxQuery().build();
         when(l2.canHandle(query)).thenReturn(true);
         when(l2.calculate(query)).thenReturn(TEN_USD);
 
@@ -36,7 +37,7 @@ class ChainedTaxPolicyTest {
     @Test
     void throwsExceptionIfNoLinkSupportsTheQuery() {
         // given
-        var query = new TaxPolicy.TaxQuery(aProduct().build(), 2, aCustomer().build());
+        var query = aTaxQuery().build();
 
         // expect
         assertThatThrownBy(() -> {

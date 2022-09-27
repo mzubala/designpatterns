@@ -182,13 +182,13 @@ class TaxQueryBuilder {
 
     CustomerBuilder customer = aCustomer();
 
-    Integer count = 1;
+    Money netAmount = MoneyFixtures.TEN_USD;
 
     static TaxQueryBuilder aTaxQuery() {
         return new TaxQueryBuilder();
     }
 
     TaxPolicy.TaxQuery build() {
-        return new TaxPolicy.TaxQuery(product.build(), count, customer.build());
+        return new TaxPolicy.TaxQuery(product.build(), customer.build(), netAmount);
     }
 }

@@ -36,26 +36,26 @@ class PLTaxPolicyLinkTest {
     @Test
     void foodTaxIsFivePercent() {
         // given
-        var product = aProduct().withCategories(Set.of(aCategory().withName("Jedzenie"))).withPrice(TEN_USD);
+        var product = aProduct().withCategories(Set.of(aCategory().withName("Jedzenie")));
 
         // expect
-        assertThat(sut.calculate(aTaxQuery().withProduct(product).withCount(2).build())).isEqualTo(new Money(ONE, USD));
+        assertThat(sut.calculate(aTaxQuery().withProduct(product).withNetAmount(TEN_USD.times(2)).build())).isEqualTo(new Money(ONE, USD));
     }
 
     @Test
     void buildingMaterialsTaxIsEightPercent() {
         // given
-        var product = aProduct().withCategories(Set.of(aCategory().withName("Budowa"))).withPrice(TEN_USD);
+        var product = aProduct().withCategories(Set.of(aCategory().withName("Budowa")));
 
         // expect
-        assertThat(sut.calculate(aTaxQuery().withProduct(product).withCount(2).build())).isEqualTo(new Money(new BigDecimal(1.6), USD));
+        assertThat(sut.calculate(aTaxQuery().withProduct(product).withNetAmount(TEN_USD.times(2)).build())).isEqualTo(new Money(new BigDecimal(1.6), USD));
     }
 
     @Test
     void otherProductsAreTaxed23Percent() {
-        var product = aProduct().withCategories(Set.of(aCategory().withName("Other"))).withPrice(TEN_USD);
+        var product = aProduct().withCategories(Set.of(aCategory().withName("Other")));
 
         // expect
-        assertThat(sut.calculate(aTaxQuery().withProduct(product).withCount(2).build())).isEqualTo(new Money(new BigDecimal(4.6), USD));
+        assertThat(sut.calculate(aTaxQuery().withProduct(product).withNetAmount(TEN_USD.times(2)).build())).isEqualTo(new Money(new BigDecimal(4.6), USD));
     }
 }

@@ -37,7 +37,7 @@ class USTaxPolicyLinkTest {
 
         // expect
         assertThat(sut.calculate(
-            aTaxQuery().withProduct(aProduct().withPrice(TEN_USD)).withCustomer(customer).withCount(2).build())
+            aTaxQuery().withProduct(aProduct()).withCustomer(customer).withNetAmount(TEN_USD.times(2)).build())
         ).isEqualTo(new Money(new BigDecimal(0.8), USD));
     }
 
@@ -48,7 +48,7 @@ class USTaxPolicyLinkTest {
 
         // expect
         assertThat(sut.calculate(
-            aTaxQuery().withProduct(aProduct().withPrice(TEN_USD)).withCustomer(customer).withCount(2).build())
+            aTaxQuery().withProduct(aProduct()).withCustomer(customer).withNetAmount(TEN_USD.times(2)).build())
         ).isEqualTo(new Money(ONE, USD));
     }
 
@@ -58,7 +58,7 @@ class USTaxPolicyLinkTest {
 
         // expect
         assertThat(sut.calculate(
-            aTaxQuery().withProduct(aProduct().withPrice(TEN_USD)).withCustomer(customer).withCount(2).build())
+            aTaxQuery().withProduct(aProduct().withPrice(TEN_USD)).withCustomer(customer).withNetAmount(TEN_USD.times(2)).build())
         ).isEqualTo(new Money(new BigDecimal(1.40), USD));
     }
 
