@@ -16,7 +16,8 @@ class CartItem {
     }
 
     Money getTotal() {
-        return product.price().times(count).add(getTax());
+        var net = product.price().times(count);
+        return net.add(getTax(net));
     }
 
     Snapshot getSnapshot() {
@@ -27,8 +28,8 @@ class CartItem {
         return product.id();
     }
 
-    private Money getTax() {
-        return cart.getTaxPolicy().calculate(new TaxPolicy.TaxQuery(product, count, cart.getCustomer()));
+    private Money getTax(Money net) {
+        return cart.getTaxPolicy().calculate(new TaxPolicy.TaxQuery(product, cart.getCustomer(), net));
     }
 
     record Snapshot(

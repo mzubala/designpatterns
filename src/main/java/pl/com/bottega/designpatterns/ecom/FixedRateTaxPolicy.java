@@ -17,6 +17,6 @@ class FixedRateTaxPolicy implements TaxPolicy {
 
     @Override
     public Money calculate(TaxQuery query) {
-        return query.product().price().times(rate).times(query.count());
+        return query.netAmount().times(rate);
     }
 }
