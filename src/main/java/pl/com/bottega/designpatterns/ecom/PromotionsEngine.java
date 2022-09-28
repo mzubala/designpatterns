@@ -3,16 +3,13 @@ package pl.com.bottega.designpatterns.ecom;
 import io.vavr.control.Option;
 
 import java.math.BigDecimal;
-import java.nio.Buffer;
 import java.time.Clock;
 import java.time.temporal.ChronoField;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 class PromotionsEngine implements RebatePolicy {
 
