@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class PromotionsEngine implements RebatePolicy {
 
@@ -102,14 +103,17 @@ class FoodPromotion extends Promotion {
 
     @Override
     void calculate(Cart cart, List<Rebate> accumulator) {
-        var foodItems = cart.getItems().stream().filter(item -> item.product().hasCategory("Jedzenie"));
-        var itemsCount = foodItems.collect(Collectors.summarizingInt(CartItem.Snapshot::count));
+        var itemsCount = foodItems(cart).collect(Collectors.summarizingInt(CartItem.Snapshot::count));
         if (itemsCount.getSum() >= 5) {
-            var sortedProducts = foodItems.map(CartItem.Snapshot::product)
+            var sortedProducts = foodItems(cart).map(CartItem.Snapshot::product)
                 .sorted(Comparator.comparing(Product::price));
             var cheapestProduct = sortedProducts.findFirst();
             cheapestProduct.ifPresent(product -> accumulator.add(new Rebate(product.id(), "Jedzenie gratis!", product.price())));
         }
+    }
+
+    private static Stream<CartItem.Snapshot> foodItems(Cart cart) {
+        return cart.getItems().stream().filter(item -> item.product().hasCategory("Jedzenie"));
     }
 }
 
