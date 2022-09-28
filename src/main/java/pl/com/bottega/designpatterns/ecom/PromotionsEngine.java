@@ -4,7 +4,9 @@ import io.vavr.control.Option;
 
 import java.math.BigDecimal;
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -52,8 +54,14 @@ class BeautyPromotion extends Promotion {
 
     @Override
     void calculate(Cart cart, List<Rebate> accumulator) {
-        var beautyProducts = cart.getItems().stream().map(item -> item.product()).filter(item -> item.hasCategory("Uroda"));
-        var rebates = beautyProducts.map(product -> new Rebate(product.id(), "-10% dla urody", product.price().times(new BigDecimal(0.1))));
+        var beautyProducts = cart.getItems().stream().filter(item -> item.product().hasCategory("Uroda"));
+        var rebates = beautyProducts.map(
+            item -> new Rebate(
+                item.product().id(),
+                "-10% dla urody",
+                item.product().price().times(new BigDecimal(0.1)).times(item.count())
+            )
+        );
         accumulator.addAll(rebates.toList());
         proceed(cart, accumulator);
     }
@@ -62,6 +70,7 @@ class BeautyPromotion extends Promotion {
 class XMasPromotion extends Promotion {
 
     private final Supplier<Clock> clockSupplier;
+
     XMasPromotion(Supplier<Clock> clockSupplier) {
         this.clockSupplier = clockSupplier;
     }
@@ -78,7 +87,11 @@ class XMasPromotion extends Promotion {
     }
 
     private static Rebate rebate(BigDecimal rate, CartItem.Snapshot item) {
-        return new Rebate(item.product().id(), "XMas Promo", item.product().price().times(rate));
+        return new Rebate(
+            item.product().id(),
+            "XMas Promo",
+            item.product().price().times(rate).times(item.count())
+        );
     }
 
     private boolean xmasTime() {

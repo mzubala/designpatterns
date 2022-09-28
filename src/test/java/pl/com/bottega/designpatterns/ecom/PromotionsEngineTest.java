@@ -72,7 +72,7 @@ class PromotionsEngineTest {
         cart.updateCount(p2.id(), 5);
 
         // then
-        assertThat(cart).hasTotal(new Money(new BigDecimal("28.25"), USD));
+        assertThat(cart).hasTotal(new Money(new BigDecimal("27.25"), USD));
     }
 
 }
