@@ -21,7 +21,7 @@ import static pl.com.bottega.designpatterns.ecom.ProductBuilder.aProduct;
 class PromotionsEngineTest {
 
     @Test
-    void appliesXMasRabate() {
+    void appliesXMasRebate() {
         // given
         Supplier<Clock> clockSupplier = () -> Clock.fixed(Instant.parse("2022-12-21T15:00:00Z"), ZoneId.systemDefault());
         var firstPromo = new BeautyPromotion();
