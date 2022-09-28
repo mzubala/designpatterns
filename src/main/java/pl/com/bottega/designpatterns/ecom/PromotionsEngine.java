@@ -4,6 +4,7 @@ import io.vavr.control.Option;
 
 import java.math.BigDecimal;
 import java.time.Clock;
+import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -59,7 +60,10 @@ class BeautyPromotion extends Promotion {
 
 class XMasPromotion extends Promotion {
 
-    Supplier<Clock> clockSupplier;
+    private final Supplier<Clock> clockSupplier;
+    XMasPromotion(Supplier<Clock> clockSupplier) {
+        this.clockSupplier = clockSupplier;
+    }
 
     @Override
     void calculate(Cart cart, List<Rebate> accumulator) {
@@ -77,7 +81,7 @@ class XMasPromotion extends Promotion {
     }
 
     private boolean xmasTime() {
-        var now = clockSupplier.get().instant();
+        var now = clockSupplier.get().instant().atZone(ZoneId.systemDefault());
         var month = now.get(ChronoField.MONTH_OF_YEAR);
         var day = now.get(ChronoField.DAY_OF_MONTH);
         return month == 12 && day >= 20 && day <= 24;
@@ -85,9 +89,9 @@ class XMasPromotion extends Promotion {
 
     private Option<BigDecimal> rebateRate(Cart cart) {
         if (cart.getCustomer().customerType() == CustomerType.CHAMPION) {
-            return Option.of(new BigDecimal("0.5"));
+            return Option.of(new BigDecimal("0.05"));
         } else if (cart.getCustomer().customerType() == CustomerType.FREQUENT) {
-            return Option.of(new BigDecimal("0.3"));
+            return Option.of(new BigDecimal("0.03"));
         } else {
             return Option.none();
         }
@@ -98,13 +102,13 @@ class FoodPromotion extends Promotion {
 
     @Override
     void calculate(Cart cart, List<Rebate> accumulator) {
-        var foodItems = cart.getItems().stream().filter(item -> item.product().hasCategory("Uroda"));
+        var foodItems = cart.getItems().stream().filter(item -> item.product().hasCategory("Jedzenie"));
         var itemsCount = foodItems.collect(Collectors.summarizingInt(CartItem.Snapshot::count));
         if (itemsCount.getSum() >= 5) {
             var sortedProducts = foodItems.map(CartItem.Snapshot::product)
                 .sorted(Comparator.comparing(Product::price));
             var cheapestProduct = sortedProducts.findFirst();
-            cheapestProduct.ifPresent(product -> accumulator.add(new Rebate(product.id(), "-5% na jedzenie", product.price().times(new BigDecimal(0.05)))));
+            cheapestProduct.ifPresent(product -> accumulator.add(new Rebate(product.id(), "Jedzenie gratis!", product.price())));
         }
     }
 }
