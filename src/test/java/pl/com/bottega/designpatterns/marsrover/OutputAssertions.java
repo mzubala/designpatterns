@@ -2,10 +2,12 @@ package pl.com.bottega.designpatterns.marsrover;
 
 import lombok.SneakyThrows;
 import org.assertj.core.api.AbstractStringAssert;
+import org.awaitility.Awaitility;
 
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.time.Duration;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +29,9 @@ public class OutputAssertions {
     }
 
     void skipLine() {
-        scanner.nextLine();
+        Awaitility.await().atMost(Duration.ofMillis(100)).failFast(() -> {
+            scanner.nextLine();
+        });
     }
 
     OutputStream toOutputStream() {

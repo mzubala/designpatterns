@@ -4,6 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
+import static org.awaitility.Awaitility.await;
+
 class MarsRoverAppTest {
 
     private final FakeInput input = new FakeInput();
@@ -38,7 +42,9 @@ class MarsRoverAppTest {
         input.input("unknown command");
 
         // then
-        outputAssertions.assertThatNextLine().contains("Sorry, I don't understand");
+        await().atMost(Duration.ofMillis(100)).untilAsserted(() -> {
+            outputAssertions.assertThatNextLine().contains("Sorry, I don't understand");
+        });
     }
 
     @Test
@@ -58,6 +64,8 @@ class MarsRoverAppTest {
     // TODO write another test similar to the above, which checks rover's rotation ability
 
     private void assertPosition(int x, int y, String direction) {
-        outputAssertions.assertThatNextLine().contains(String.format("(%d, %d)", x, y)).contains(direction);
+        await().atMost(Duration.ofMillis(100)).untilAsserted(() -> {
+            outputAssertions.assertThatNextLine().contains(String.format("(%d, %d)", x, y)).contains(direction);
+        });
     }
 }
